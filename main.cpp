@@ -47,7 +47,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 7) {
+    while (sel != 8) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -88,6 +88,11 @@ int main() {
                 trip.erase(remove_if(trip.begin(), trip.end(), [&name](const Goat& v){ return v.get_name() == name; }), trip.end());
                 break;
             }
+            case 7: {
+                int totalAge = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat& v){ return sum + v.get_age(); });
+                cout << "Total ages: " << totalAge << endl;
+                break;
+            }
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -107,11 +112,12 @@ int main_menu() {
     cout << "[4] Count pink goats\n";
     cout << "[5] Find a goat by color\n";
     cout << "[6] Remove goats by name\n";
-    cout << "[7] Quit\n";
+    cout << "[7] Sum of goat ages\n";
+    cout << "[8] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 7) {
+    while (choice < 1 || choice > 8) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
