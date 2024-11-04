@@ -2,6 +2,9 @@
 #include <fstream>
 #include <iomanip>
 #include <list>
+#include <algorithm>
+#include <random>
+#include <numeric>
 #include "Goat.h"
 using namespace std;
 
@@ -44,7 +47,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 4) {
+    while (sel != 5) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -58,6 +61,14 @@ int main() {
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
                 break;
+            case 4: {
+                cout << "Counting goats with color 'Pink':\n";
+                int count = count_if(trip.begin(), trip.end(), [](const Goat& g) {
+                    return g.get_color() == "Pink";
+                });
+                cout << "Count: " << count << endl;
+                break;
+            }
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -74,11 +85,12 @@ int main_menu() {
     cout << "[1] Add a goat\n";
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
-    cout << "[4] Quit\n";
+    cout << "[4] Count pink goats\n";
+    cout << "[5] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 4) {
+    while (choice < 1 || choice > 5) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
