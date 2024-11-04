@@ -47,7 +47,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 11) {
+    while (sel != 12) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -62,19 +62,25 @@ int main() {
                 display_trip(trip);
                 break;
             case 4: {
+                // Count all pink goats
                 cout << "Counting goats with color 'Pink':\n";
+                // Use count_if and iterate from the beginning to the end of the list.
                 int count = count_if(trip.begin(), trip.end(), [](const Goat& g) {
                     return g.get_color() == "Pink";
                 });
+                // Display the number of pink goats.
                 cout << "Count: " << count << endl;
                 break;
             }
             case 5: {
+                // Prompt user for a color.
                 string color;
                 cout << "Enter a color to search for: ";
                 cin >> color;
                 cout << "Searching for Goats with " << color <<  " color..." << endl;
+                // Use find_if to search for goats with that specific color.
                 auto it = find_if(trip.begin(), trip.end(), [&color](const Goat& v){ return v.get_color() == color; });
+                // Display what goat was found.
                 if (it != trip.end())
                     cout << it->get_name() << " found with color " << it->get_color() << endl;
                 else
@@ -82,18 +88,22 @@ int main() {
                 break;
             }
             case 6: {
+                // Remove a goat based on a name the user enters.
                 string name;
                 cout << "Enter a name to remove: ";
                 cin >> name;
+                // Use erase and remove_if to iterate through the whole list and get rid of necessary goats.
                 trip.erase(remove_if(trip.begin(), trip.end(), [&name](const Goat& v){ return v.get_name() == name; }), trip.end());
                 break;
             }
             case 7: {
+                // Use accumulate to add up all the goat's ages.
                 int totalAge = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat& v){ return sum + v.get_age(); });
                 cout << "Total ages: " << totalAge << endl;
                 break;
             }
             case 8: {
+                // Use max_element to find and display the oldest goat.
                 cout << "Finding the oldest goat..." << endl;
                 auto max_it = max_element(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) {
                     return a.get_age() < b.get_age();
@@ -105,6 +115,7 @@ int main() {
                 break;
             }
             case 9: {
+                // Use min_element to find and display the youngest goat.
                 cout << "Finding the youngest goat..." << endl;
                 auto max_it = min_element(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) {
                     return a.get_age() < b.get_age();
@@ -116,9 +127,20 @@ int main() {
                 break;
             }
             case 10:
+                // Reverse the list of goats
                 cout << "Reversing the order of the goats..." << endl;
                 reverse(trip.begin(), trip.end());
                 cout << "Goats are reversed!" << endl;
+                break;
+            case 11:
+                // Increase the age of all goats by 1
+                cout << "Increasing all goats' ages by one..." << endl;
+                // Use trasform to loop through each goat in the list and increment its age.
+                transform(trip.begin(), trip.end(), trip.begin(), [](Goat& g) { 
+                    g.set_age(g.get_age() + 1); 
+                    return g;
+                });
+                cout << "Ages successfully incremented." << endl;
                 break;
             default:
                 cout << "Invalid selection.\n";
@@ -143,11 +165,12 @@ int main_menu() {
     cout << "[8] Find the oldest goat\n";
     cout << "[9] Find the youngest goat\n";
     cout << "[10] Reverse order of goats\n";
-    cout << "[11] Quit\n";
+    cout << "[11] Increment all goats' ages by one\n";
+    cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 11) {
+    while (choice < 1 || choice > 12) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
